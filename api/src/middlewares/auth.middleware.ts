@@ -1,8 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
 import config from "../config";
+import * as jwt from "../services/jwt.service";
 
-const { JWT_SECRET } = config;
 
 export type userDataType = {
   id: string;
@@ -19,7 +18,7 @@ export const adminAuthMiddleware = (
     if (!token) {
       return res.status(401).send({ message: "No token provided" });
     }
-    const user = jwt.verify(token, JWT_SECRET) as userDataType;
+    const user = jwt.validateToken(token) as userDataType;
     console.log(req.url);
     req.body.user = user;
     if (user.role !== "admin") {
