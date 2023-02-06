@@ -3,7 +3,7 @@ import { Schema, model, Document } from "mongoose";
 export interface ILoanHistory {
   userId: string;
   loanDate: Date;
-  returnDate: Date;
+  returnDate: Date | null;
 }
 
 export interface IBook extends Document {
@@ -51,4 +51,4 @@ const bookSchema: Schema = new Schema(
   }
 );
 
-export default model("Book", bookSchema);
+export default model<IBook>("Book", bookSchema);
