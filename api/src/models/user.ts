@@ -6,9 +6,30 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: string;
-  borrowedBooks?: string[];
+  borrowedBooks: ILoanHistory[];
   comparePassword: (candidatePassword: string) => Promise<boolean>;
 }
+
+export interface ILoanHistory {
+  bookId: string;
+  loanDate: Date;
+  returnDate: Date | null;
+}
+
+const borrowedBooksSchema: Schema = new Schema({
+  bookId: {
+    type: Schema.Types.ObjectId,
+    ref: "Book",
+    required: true,
+  },
+  loanDate: {
+    type: Date,
+    required: true,
+  },
+  returnDate: {
+    type: Date,
+  },
+});
 
 const UserSchema: Schema = new Schema(
   {
@@ -30,12 +51,7 @@ const UserSchema: Schema = new Schema(
       enum: ["user", "admin"],
       default: "user",
     },
-    borrowedBooks: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Book",
-      },
-    ],
+    borrowedBooks: [borrowedBooksSchema],
   },
   {
     timestamps: true,
