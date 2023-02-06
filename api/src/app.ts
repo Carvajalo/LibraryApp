@@ -4,6 +4,7 @@ import morgan from "morgan";
 import config from "./config";
 import booksRouter from "./routes/book.routes";
 import userRouter from "./routes/user.routes";
+import loginRouter from "./routes/login.routes";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.set("PORT", config.PORT);
 // Routes
 app.use("/Books", booksRouter);
 app.use("/Users", userRouter);
+app.use("/Users", loginRouter);
 
 
 export default app;
