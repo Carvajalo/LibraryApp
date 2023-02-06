@@ -1,17 +1,28 @@
 import express, { Request, Response } from "express";
 import { adminAuthMiddleware } from "../middlewares/auth.middleware";
 import * as userController from "../controllers/user.controller";
+import { validateParamsId } from "../utils/idValidation";
 
 const router = express.Router();
 
 router.get("/", userController.getAllUsers);
 
-router.post("/register", userController.register);
+router.get("/:id", validateParamsId, userController.getUserById);
 
-router.post("/newAdmin", adminAuthMiddleware, userController.createAdmin);
+router.delete(
+  "/:id",
+  validateParamsId,
+  adminAuthMiddleware,
+  userController.deleteUserById
+);
 
-router.post("/login", userController.login);
+router.delete("/deleteAll", adminAuthMiddleware, userController.deteteAllUsers);
 
-router.post("/logout", userController.logOut);
+router.put(
+  "/:id",
+  validateParamsId,
+  adminAuthMiddleware,
+  userController.updateUserById
+);
 
 export default router;
