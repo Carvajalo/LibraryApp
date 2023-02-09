@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userDataType } from "middlewares/auth.middleware";
+import { userDataType } from "../middlewares/auth.middleware";
 import User from "../models/user";
 import { generateToken, validateToken } from "../services/jwt.service";
 
@@ -41,18 +41,14 @@ export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({ email });
+    const user =
+      (await User.findOne({ email })) || (await User.findOne({ name: email }));
     if (!user) {
-      return res
-        .status(400)
-        .send({ message: "Email or password is incorrect" });
+      return res.status(400).send({ message: "Email or Username incorrect" });
     }
-
     const isMatch = await user.comparePassword(String(password));
     if (!isMatch) {
-      return res
-        .status(400)
-        .send({ message: "Email or password is incorrect" });
+      return res.status(400).send({ message: "Password is incorrect" });
     }
     const payload: userDataType = {
       id: user._id,

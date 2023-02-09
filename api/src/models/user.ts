@@ -6,11 +6,12 @@ export interface IUser extends Document {
   email: string;
   password: string;
   role: string;
-  borrowedBooks: ILoanHistory[];
+  borrowedBooks: IBorrowedBooksSchema[];
   comparePassword: (candidatePassword: string) => Promise<boolean>;
+  newPassword: (password: string) => Promise<string>;
 }
 
-export interface ILoanHistory {
+export interface IBorrowedBooksSchema {
   bookId: string;
   loanDate: Date;
   returnDate: Date | null;
@@ -72,6 +73,15 @@ UserSchema.pre<IUser>("save", function (next) {
     next();
   });
 });
+
+UserSchema.methods.newPassword = function (password: string) {
+  bcrypt.hash(password, 10, (err, hash) => {
+    if (err) {
+      return err;
+    }
+    this.password = hash;
+  });
+};
 
 UserSchema.methods.comparePassword = function (
   candidatePassword: string

@@ -7,6 +7,10 @@ const router = express.Router();
 
 router.get("/", userController.getAllUsers);
 
+router.get("/users", userController.getAllStudents);
+
+router.get("/admins", userController.getAllAdmins);
+
 router.get("/:id", validateParamsId, userController.getUserById);
 
 router.delete(
@@ -25,4 +29,6 @@ router.put(
   userController.updateUserById
 );
 
+
+/* router.post("/requestBook", userController.requestBook); */
 export default router;

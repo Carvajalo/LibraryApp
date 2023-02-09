@@ -23,3 +23,42 @@ export const validateBodyId = (
   }
   next();
 };
+
+export const agregation = [
+  {
+    $lookup: {
+      from: "users",
+      localField: "userId",
+      foreignField: "_id",
+      as: "user",
+    },
+  },
+  {
+    $unwind: "$user",
+  },
+  {
+    $lookup: {
+      from: "books",
+      localField: "bookId",
+      foreignField: "_id",
+      as: "book",
+    },
+  },
+  {
+    $unwind: "$book",
+  },
+  {
+    $project: {
+      bookId: 1,
+      userId: 1,
+      status: 1,
+      createdAt: 1,
+      updatedAt: 1,
+      "user.name": 1,
+      "user.email": 1,
+      "book.title": 1,
+      "book.author": 1,
+      "book.ISBN": 1,
+    },
+  },
+];
