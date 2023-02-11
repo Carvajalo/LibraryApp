@@ -10,6 +10,12 @@ const router = Router();
 
 router.get("/requests", requestController.getAllRequests);
 
+router.get(
+  "/UserRequest",
+  userAuthMiddleware,
+  requestController.getAllUserRequests
+);
+
 router.get("/requests/:id", validateParamsId, requestController.getUserRequest);
 
 router.post(

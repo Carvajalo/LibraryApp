@@ -4,7 +4,7 @@ import Book, { IBook } from "../models/book";
 import User, { IUser } from "../models/user";
 import RequestBook, { IRequestBook } from "../models/requestBook";
 import { ObjectId } from "mongodb";
-import { agregation } from "../utils/idValidation";
+import { agregation, userBorrowedBooksAgregation } from "../utils/idValidation";
 
 export const requestBook = async (
   req: Request,
@@ -76,15 +76,6 @@ export const getUserRequest = async (req: Request, res: Response) => {
 export const getAllRequests = async (_: Request, res: Response) => {
   try {
     const requests = await RequestBook.aggregate(agregation);
-
-    /*
-    const requests = await RequestBook.find({}, { $in: ["bookId", "userId"] });
-    if (!requests)
-      return res.status(400).send({ message: "Requests not found" });
-    const user = await User.find({
-      _id: { $in: requests.map((r) => r.userId) },
-    });
-    */
     res.status(200).send(requests);
   } catch (error) {
     res.status(400).send(error);
@@ -268,6 +259,28 @@ export const returnBook = async (req: Request, res: Response) => {
     //?
 
     return res.status(200).send({ message: "Book returned", requestBook });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+export const getAllUserRequests = async (req: Request, res: Response) => {
+  try {
+    const { user } = req.body;
+    const id = new ObjectId(user.id);
+
+    if (!user.id) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const borrowedBooks = await User.aggregate(userBorrowedBooksAgregation(id));
+
+    if (!borrowedBooks)
+      return res.status(404).json({ error: "User had not borrowed books" });
+
+    console.log(borrowedBooks);
+
+    return res.send(borrowedBooks);
   } catch (error) {
     res.status(400).send(error);
   }

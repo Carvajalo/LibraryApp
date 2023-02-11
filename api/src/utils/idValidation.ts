@@ -1,4 +1,6 @@
 import { Request, Response, NextFunction } from "express";
+import { ObjectId } from 'mongodb';
+
 
 export const validateParamsId = (
   req: Request & { params: { id: string } },
@@ -62,3 +64,44 @@ export const agregation = [
     },
   },
 ];
+
+export const userBorrowedBooksAgregation = (id: ObjectId) => {
+  return [
+    {
+      $match: {
+        _id: id,
+        "borrowedBooks.returnDate": null,
+      },
+    },
+    {
+      $project: {
+        borrowedBooks: {
+          $filter: {
+            input: "$borrowedBooks",
+            as: "borrowedBook",
+            cond: { $eq: ["$$borrowedBook.returnDate", null] },
+          },
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: "books",
+        localField: "borrowedBooks.bookId",
+        foreignField: "_id",
+        as: "books",
+      },
+    },
+    {
+      $unwind: "$books",
+    },
+    {
+      $project: {
+        _id: "$books._id",
+        title: "$books.title",
+        author: "$books.author",
+        isbn: "$books.isbn",
+      },
+    },
+  ];
+};

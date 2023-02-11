@@ -56,7 +56,7 @@ export const login = async (req: Request, res: Response) => {
     };
     const token = generateToken(payload);
 
-    res.send({ token });
+    res.send({ token, payload });
   } catch (error) {
     res.status(400).send(error);
   }
