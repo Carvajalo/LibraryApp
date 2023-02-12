@@ -5,6 +5,7 @@ import * as jwt from "../services/jwt.service";
 export type userDataType = {
   id: string;
   role: string;
+  name: string;
 };
 
 export const adminAuthMiddleware = (

@@ -285,3 +285,14 @@ export const getAllUserRequests = async (req: Request, res: Response) => {
     res.status(400).send(error);
   }
 };
+
+export const getRequestHistory = async (req: Request, res: Response) => {
+  try {
+    const requestHistory = await RequestBook.find({
+      status: "approved",
+    });
+    res.status(200).send(requestHistory);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
