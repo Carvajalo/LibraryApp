@@ -62,19 +62,19 @@ const Login = () => {
           <form action="#" method="#" className="form login">
             {signUp && (
               <div className="form__field">
-                <label htmlFor="login__username">
+                <label htmlFor="login__name">
                   <svg className="icon">
                     <use xlinkHref="#icon-user"></use>
                   </svg>
-                  <span className="hidden">Username</span>
+                  <span className="hidden">name</span>
                 </label>
                 <input
-                  autoComplete="username"
-                  id="login__username"
+                  autoComplete="name"
+                  id="login__name"
                   type="text"
-                  name="username"
+                  name="name"
                   className="form__input"
-                  placeholder="Username"
+                  placeholder="name"
                   onChange={handleChange}
                   required
                 />
