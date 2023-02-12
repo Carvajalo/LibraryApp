@@ -19,12 +19,6 @@ const Login = () => {
     if (user) {
       return navigate("/dashboard");
     }
-    setValues({
-      ...values,
-      name: "Utest1",
-      email: "Utest1@gmail.com",
-      password: "123456",
-    });
   }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +75,6 @@ const Login = () => {
                   name="username"
                   className="form__input"
                   placeholder="Username"
-                  defaultValue="Utest1"
                   onChange={handleChange}
                   required
                 />
@@ -101,7 +94,6 @@ const Login = () => {
                 type="text"
                 name="email"
                 className="form__input"
-                defaultValue="Utest1@gmail.com"
                 placeholder="email"
                 onChange={handleChange}
                 required
@@ -121,7 +113,6 @@ const Login = () => {
                 name="password"
                 className="form__input"
                 placeholder="Password"
-                defaultValue={"123456"}
                 onChange={handleChange}
                 required
               />

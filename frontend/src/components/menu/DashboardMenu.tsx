@@ -2,6 +2,10 @@ import React from "react";
 import "./style.css";
 import { removeToken } from "../../utils/jwt-helpers";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { getToken } from "../../utils/jwt-helpers";
+import { useContext } from "react";
+import { UserContext } from "../../context/Users/UserContext";
 
 interface Props {
   handleMenu: (boolean: boolean) => void;
@@ -9,7 +13,19 @@ interface Props {
 
 const DashboardMenu = (props: Props) => {
   const navigate = useNavigate();
+  const { setToken, role, setRole } = useContext(UserContext);
+
   const { handleMenu } = props;
+
+  useEffect(() => {
+    const userToken = getToken();
+    if (userToken) {
+      setToken(userToken);
+      setRole(userToken.role);
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
   const handleLogout = () => {
     removeToken();
@@ -33,18 +49,22 @@ const DashboardMenu = (props: Props) => {
               <span className="nav__text">Books</span>
             </a>
           </li>
+
           <li onClick={() => handleMenu(false)}>
             <a href="#Request">
               <i className="fa fa-exchange fa-2x"></i>
-              <span className="nav__text">Request</span>
+              <span className="nav__text">Requests</span>
             </a>
           </li>
-          <li onClick={() => handleMenu(false)}>
-            <a href="#Users">
-              <i className="fa fa-users fa-2x"></i>
-              <span className="nav__text">Users</span>
-            </a>
-          </li>
+
+          {role === "admin" && (
+            <li onClick={() => handleMenu(false)}>
+              <a href="#Users">
+                <i className="fa fa-users fa-2x"></i>
+                <span className="nav__text">Users</span>
+              </a>
+            </li>
+          )}
           <li onClick={() => handleMenu(false)}>
             <a href="#History">
               <i className="fa fa-tasks fa-2x"></i>

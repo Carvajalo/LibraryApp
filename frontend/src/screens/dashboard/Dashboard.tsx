@@ -42,6 +42,9 @@ const Dashboard = () => {
             <h1>Request</h1>
             <p>Request CRUD</p>
           </section>
+          <section id="History">
+            <h1>History view</h1>
+          </section>
         </div>
       </div>
     </>

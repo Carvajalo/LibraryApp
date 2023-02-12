@@ -4,7 +4,12 @@ export interface IBookRequest {
   ISBN?: string;
 }
 
-export interface IBook extends IBookRequest {
+export interface IBookProps {
+  title: string;
+  author: string;
+  ISBN: string;
+}
+export interface IBook extends IBookProps {
   _id: string;
   loanHistory: ILoanHistory[];
   createdAt: Date;
