@@ -288,9 +288,14 @@ export const getAllUserRequests = async (req: Request, res: Response) => {
 
 export const getRequestHistory = async (req: Request, res: Response) => {
   try {
-    const requestHistory = await RequestBook.find({
-      status: "approved",
-    });
+    const requestHistory = await RequestBook.aggregate([
+      {
+        $match: {
+          status: "approved",
+        },
+      },
+      ...agregation,
+    ]).sort({ updatedAt: -1 });
     res.status(200).send(requestHistory);
   } catch (error) {
     res.status(400).send(error);

@@ -51,4 +51,6 @@ router.post(
 
 router.get("/recentLoans", requestController.getRecentLoans);
 
+router.get("/history", requestController.getRequestHistory);
+
 export default router;

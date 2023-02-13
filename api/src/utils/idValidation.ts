@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ObjectId } from 'mongodb';
-
+import { ObjectId } from "mongodb";
 
 export const validateParamsId = (
   req: Request & { params: { id: string } },
@@ -100,8 +99,11 @@ export const userBorrowedBooksAgregation = (id: ObjectId) => {
         _id: "$books._id",
         title: "$books.title",
         author: "$books.author",
-        isbn: "$books.isbn",
+        returnDate: "$books.loanHistory.returnDate",
       },
+    },
+    {
+      $unwind: "$returnDate",
     },
   ];
 };
