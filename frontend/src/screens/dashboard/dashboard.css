@@ -17,7 +17,7 @@
 }
 
 section:target {
-  position: absolute;
+  position: fixed;
   width: calc(100% - 60px);
   height: 92vh;
   z-index: 10;

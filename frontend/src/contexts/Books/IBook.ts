@@ -5,6 +5,7 @@ export interface IBookRequest {
 }
 
 export interface IBookProps {
+  _id: string;
   title: string;
   author: string;
   ISBN: string;

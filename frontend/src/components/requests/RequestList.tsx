@@ -1,20 +1,22 @@
 import "@components/listsStyles.css";
 import React, { useEffect } from "react";
 import { useContext } from "react";
-import { UserContext } from "@contexts/Users/UserContext";
-import { IUser } from "@contexts/Users/IUser";
-import Request from "./User";
+import { RequestContext } from "@contexts/Requests/RequestsContext";
+import { IRequests } from "@contexts/Requests/IRequest";
+import Request from "./Request";
 
-const UsersList = () => {
-  const { users, setUsers, userRoutes, change, setChange, token } =
-    useContext(UserContext);
+const RequestList = () => {
+  const { request, setRequest, requestRoutes, change, setChange } =
+    useContext(RequestContext);
 
-  const getUsers = async () => {
-    const users = (await userRoutes.getAllUsers(token.token)) as IUser[];
-    setUsers(users);
+  const getRequests = async () => {
+    const requests = (await requestRoutes.getAllRequests()) as IRequests[];
+    // console.log(requests);
+    setRequest(requests);
   };
+
   useEffect(() => {
-    getUsers();
+    getRequests();
   }, [change]);
 
   return (
@@ -29,26 +31,26 @@ const UsersList = () => {
       <table id="container">
         <thead className="table__container">
           <tr className="container__head">
-            <th>name</th>
+            <th>User</th>
           </tr>
           <tr className="container__head">
-            <th>email</th>
+            <th>Book</th>
           </tr>
           <tr className="container__head">
-            <th>role</th>
+            <th>Status</th>
           </tr>
           <tr className="container__head list__actions">
             <th>Actions</th>
           </tr>
         </thead>
         <tbody className="item__container" id="scrollbar">
-          {users.map((user) => (
+          {request.map((req) => (
             <Request
-              key={user._id}
-              _id={user._id}
-              name={user.name}
-              email={user.email}
-              role={user.role}
+              key={req._id}
+              user={req.user.name}
+              book={req.book.title}
+              status={req.status}
+              _id={req._id}
             ></Request>
           ))}
         </tbody>
@@ -57,4 +59,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default RequestList;

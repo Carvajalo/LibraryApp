@@ -5,8 +5,8 @@ import * as userRoutes from "./userRoutes";
 import { IJwt } from "./loginRoutes";
 
 interface UserContextProps {
-  user: IUser[];
-  setUser: React.Dispatch<React.SetStateAction<IUser[] | []>>;
+  users: IUser[];
+  setUsers: React.Dispatch<React.SetStateAction<IUser[] | []>>;
   userRoutes: typeof userRoutes;
   change: boolean;
   setChange: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,7 +19,7 @@ interface UserContextProps {
 export const UserContext = createContext({} as UserContextProps);
 
 export const UsersContextProvider = ({ children }: TProps) => {
-  const [user, setUser] = useState([] as IUser[]);
+  const [users, setUsers] = useState([] as IUser[]);
   const [change, setChange] = useState(false);
   const [token, setToken] = useState({} as IJwt);
   const [role, setRole] = useState("");
@@ -27,8 +27,8 @@ export const UsersContextProvider = ({ children }: TProps) => {
   return (
     <UserContext.Provider
       value={{
-        user,
-        setUser,
+        users,
+        setUsers,
         change,
         setChange,
         userRoutes,

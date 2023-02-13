@@ -19,3 +19,10 @@ export interface User {
   name: string;
   email: string;
 }
+
+export interface IRequestsProps {
+  _id: string;
+  book: string;
+  user: string;
+  status: string;
+}

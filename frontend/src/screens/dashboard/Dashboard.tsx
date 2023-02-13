@@ -1,22 +1,28 @@
-import BooksList from "../../components/books/BooksList";
-import "./dashboard.css";
-import DashboardMenu from "../../components/menu/DashboardMenu";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getToken } from "../../utils/jwt-helpers";
+import { useEffect, useState, useContext } from "react";
+import { getToken } from "@utils/jwt-helpers";
+import BooksList from "@components/books/BooksList";
+import DashboardMenu from "@components/menu/DashboardMenu";
+import RequestList from "@components/requests/RequestList";
+import "./dashboard.css";
+import { UserContext } from "@/contexts/Users/UserContext";
+import UsersList from "@components/users/UsersList";
+import HistoryList from "@components/history/HistoryList";
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const [isActive, setIsActive] = useState(true);
+  const { token, setToken } = useContext(UserContext);
 
   useEffect(() => {
     const user = getToken();
+    setToken(user);
     if (user) {
       return navigate("/dashboard");
     } else {
       return navigate("/login");
     }
-  }, [navigate]);
+  }, []);
 
   const handleMenu = (boolean: boolean) => {
     return setIsActive(boolean);
@@ -28,22 +34,20 @@ const Dashboard = () => {
         <div className="dashboard_pages">
           {isActive && (
             <section id="home">
-              <h1>Welcome ${"user"} to the Library App</h1>
+              <h1>Welcome {token.name}</h1>
             </section>
           )}
           <section id="Books">
             <BooksList />
           </section>
           <section id="Users">
-            <h1>User</h1>
-            <p>User CRUD</p>
+            <UsersList />
           </section>
           <section id="Request">
-            <h1>Request</h1>
-            <p>Request CRUD</p>
+            <RequestList />
           </section>
           <section id="History">
-            <h1>History view</h1>
+            <HistoryList />
           </section>
         </div>
       </div>

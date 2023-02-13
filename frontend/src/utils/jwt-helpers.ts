@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IJwt } from "../context/Users/loginRoutes";
+import { IJwt } from "../contexts/Users/loginRoutes";
 
 export function setToken(token: IJwt) {
   localStorage.setItem("token", JSON.stringify(token));

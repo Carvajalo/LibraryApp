@@ -13,17 +13,16 @@ export const getAllBooks = async () => {
 };
 
 export const getBookById = async (id: string) => {
-  return (await axios(config("get", `/books/${id}`))) as IBook;
+  const book = await axios(config("get", `books/${id}`));
+  return book.data;
 };
 
 export const createBook = async (book: IBookRequest) => {
-  return (await axios(config("post", "/books/add", book))) as IBook;
+  return (await axios(config("post", "books/add", book))) as IBook;
 };
 
 export const deleteBook = async (id: string, token: string) => {
-  return (await axios(
-    config("delete", `/books/${id}`, [], token)
-  )) as IBookDeletedResponse;
+  return await axios(config("delete", `books/delete/${id}`, [], token));
 };
 
 export const updateBook = async (
@@ -32,12 +31,12 @@ export const updateBook = async (
   token: string
 ) => {
   return (await axios(
-    config("put", `/books/update/${id}`, book, token)
+    config("put", `books/update/${id}`, book, token)
   )) as IBook;
 };
 
 export const deleteAllBooks = async (token: string) => {
   return (await axios(
-    config("delete", "/books/deleteAll", [], token)
+    config("delete", "books/deleteAll", [], token)
   )) as IBook[];
 };

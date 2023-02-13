@@ -1,11 +1,8 @@
-import React from "react";
-import "./style.css";
-import { removeToken } from "../../utils/jwt-helpers";
+import React, { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import { getToken } from "../../utils/jwt-helpers";
-import { useContext } from "react";
-import { UserContext } from "../../context/Users/UserContext";
+import { UserContext } from "@contexts/Users/UserContext";
+import { removeToken, getToken } from "@utils/jwt-helpers";
+import "./style.css";
 
 interface Props {
   handleMenu: (boolean: boolean) => void;
@@ -29,6 +26,12 @@ const DashboardMenu = (props: Props) => {
 
   const handleLogout = () => {
     removeToken();
+    setToken({
+      name: "",
+      role: "",
+      token: "",
+    });
+    setRole("");
     navigate("/login");
   };
   return (
