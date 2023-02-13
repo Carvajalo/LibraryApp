@@ -12,8 +12,6 @@ This application also use Expres, Mongo, TypeScript and Docker
 Run the following command on your local environment:
 
 ```
-git clone https://github.com/Carvajalo/LibraryApp.git
-cd LibraryApp
 npm install
 ```
 
